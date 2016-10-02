@@ -44,14 +44,4 @@ class Welcome extends CI_Controller {
             $this->load->view('Footer');
             
         }
-
-
-public function cashierVewOrder()
-	{
-		$this->load->view('Header');
-                $this->load->view('Sidebar');
-                $this->load->view('cashierViewOrder');
-                $this->load->view('Footer');
-	}
-
 }
