@@ -18,12 +18,22 @@ class Login extends CI_Controller {
 	 * map to /index.php/welcome/<method_name>
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
+	/*
+		*if user not login view login page
+	*/
 	public function index()
 	{
 		$this->load->library('form_validation');
 		$this->load->helper('form');
-		$this->load->view('Login/Login');
+		//print_r($this->session->userdata());
+		if(TRUE!=$this->session->userdata('logged_in')){
+				$this->load->view('Login/Login');
+		}
 
+	}
+
+	public function logout(){
+		$this->session->sess_destroy();
 	}
 	/*
 		*check the username and password
@@ -50,12 +60,12 @@ class Login extends CI_Controller {
 			
 		
 			if($this->checkPassword($email,$password)){
-				
+				//print_r($this->session->userdata());
 				if(null!=$this->session->userdata('ulevel')){
 					if($this->session->userdata('ulevel')=='1'){
 						
 						echo 'owner';
-						
+					
 					}
 					else if ($this->session->userdata('ulevel')=='2'){
 						
@@ -80,6 +90,13 @@ class Login extends CI_Controller {
 		}
 	}
 
+	/*
+		*check the username and password is correct or not
+		*dirict to user dashborad
+		*$username - @string
+		*$password - @string
+		*
+	*/
 	public function checkPassword($username,$password)
 	{
 		$this->load->model('Login_model','login');	

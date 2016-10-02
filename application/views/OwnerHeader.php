@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <script type="text/javascript" language="javascript" src="//code.jquery.com/jquery-1.12.3.min.js">
+  </script>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>AdminLTE 2 | Dashboard</title>
@@ -44,9 +46,9 @@
     <!-- Logo -->
     <a href="<?php echo base_url(); ?>index2.html" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"><b>A</b>LT</span>
+      <span class="logo-mini"><b>SLIIT</b> Canteen</span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>Admin</b>LTE</span>
+      <span class="logo-lg"><b>SLIIT</b> Canteen</span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
@@ -57,18 +59,31 @@
 
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
+
           <!-- Messages: style can be found in dropdown.less-->
+          <li class="dropdown messages-menu">
+            <a href="<?php echo base_url('index.php/Cashier/cashierViewOrder'); ?>" class="dropdown-toggle" data-toggle="dropdown">
+              <i class="fa  fa-database"></i>
+              <span class="label label-success" id='msgcount'>0</span>
+            </a>
+            
           
 
+          </li>
+          <li>
+            <a href="<?php echo base_url('index.php/Login/logout'); ?>" class="dropdown-toggle" data-toggle="dropdown">logout</a>
           </li>
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="<?php echo base_url(); ?>#" class="dropdown-toggle" data-toggle="dropdown">
-
+              
+              <span class="hidden-xs"><?php  echo $this->session->userdata('uname'); ?></span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
-
+              <li class="user-header">
+                
+              </li>
               <!-- Menu Body -->
               <li class="user-body">
                 <div class="row">
@@ -104,3 +119,49 @@
     </nav>
   </header>
   <!-- Left side column. contains the logo and sidebar -->
+
+
+<script type="text/javascript">
+
+  $(document).ready(function(){
+
+      myFunction();
+    reloadmsg();
+    getordercount();
+
+  });
+
+
+
+
+
+function myFunction() {
+    setInterval(function(){ getordercount() }, 8000);
+}
+
+function reloadmsg(){
+  setInterval(getordercount(),3000);
+}
+
+  function getordercount(){
+      
+    $.ajax({
+      url: '<?php echo base_url("index.php/Order/getPendingCount");?>',
+      type: 'POST',
+      //data: myData,
+      // dataType: 'json',
+      contentType: "application/json; charset=utf-8",
+      success: function(result) {
+        obj = JSON.parse(result);
+      
+      
+        document.getElementById('msgcount').innerHTML=obj.message[0].count ;
+        //document.getElementById('pmsgcount').innerHTML='You have '+obj.message[0].count +' new messages';
+
+
+        
+      }
+  });
+    //alert('66');
+  }
+</script>

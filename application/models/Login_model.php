@@ -53,6 +53,11 @@ class Login_model extends CI_Model
 		}
 	}
 
+    public function insert($data){
+        $this->db->insert('user', $data); //insert the data
+        
+    }
+
 
 	
 
